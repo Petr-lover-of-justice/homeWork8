@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+
+
+// import "./styles.css";
 
 function App() {
+
+  const [users, setUsers] = React.useState([])
+
+  const getDataUsers = async () => {
+    try {
+      await fetch("https://618e3ea350e24d0017ce1178.mockapi.io/e").then((res) => {
+        res.json().then((result) => {
+          setUsers(result)
+        });
+      });
+    } catch (error) {
+      console.log(error + "Ошибка при отправки")
+    }
+  }
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ul>
+        {users.map((obj) => (
+          <li key={obj.id}>{obj.name}</li>
+        ))}
+      </ul>
+      <button onClick={getDataUsers}> Are you want to user?
+      </button>
     </div>
   );
 }
 
 export default App;
+
